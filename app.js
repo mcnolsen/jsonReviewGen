@@ -19,47 +19,50 @@ function processData(data){
     }
 }
 
-function genCode(){
-    var text = "  \"review\": [{\n" +
-        "    \"@type\": \"Review\",\n" +
-        "    \"reviewBody\": \"If you want to buy instagram likes, then this is the website for you! 10/10\",\n" +
-        "    \"reviewRating\": {\n" +
-        "      \"@type\": \"Rating\",\n" +
-        "      \"ratingValue\": \"5\",\n" +
-        "      \"bestRating\": \"5\",\n" +
-        "      \"worstRating\": \"1\"\n" +
-        "    }," +
-        "    \"datePublished\": \"2019-" + getRndInteger(1, 13) + "-"+ getRndInteger(1, 32) + ",\n" +
-        "    \"author\": {\"@type\": \"Person\", \"name\": "+fullNames[0]+"}\n" +
-        "  },";
-    for (count = 1; count < fullNames.length; count++){
-        var month = getRndInteger(1, 13);
-        function day (month){
-            if (month === 2){
-                return getRndInteger(1, 29);
-            }
-            else if (month % 2 === 0 && month !== 2){
-                return getRndInteger(1, 31);
-            }
-            else {
-                return getRndInteger(1, 32);
-            }
-        }
-        var text = text + "  \"review\": [{\n" +
-            "    \"@type\": \"Review\",\n" +
-            "    \"reviewBody\": \"If you want to buy instagram likes, then this is the website for you! 10/10\",\n" +
-            "    \"reviewRating\": {\n" +
-            "      \"@type\": \"Rating\",\n" +
-            "      \"ratingValue\": \"5\",\n" +
-            "      \"bestRating\": \"5\",\n" +
-            "      \"worstRating\": \"1\"\n" +
-            "    }," +
-            "    \"datePublished\": \"2019-" + month + "-"+ day(month) + ",\n" +
-            "    \"author\": {\"@type\": \"Person\", \"name\": "+fullNames[count]+"}\n" +
-            "  },";
-    document.getElementById("goodShit").value = text;
+function day (month){
+    if (month === 2){
+        return getRndInteger(1, 29);
+    }
+    else if (month % 2 === 0 && month !== 2){
+        return getRndInteger(1, 31);
+    }
+    else {
+        return getRndInteger(1, 32);
     }
 }
+
+const genCode = () => {
+    var text = `{
+    "@type": "Review",
+    "reviewBody": "I thought that because of the cheap prices, the delivery time or quality would be bad. That is definetly not the case!",
+    "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "5",
+    "bestRating": "5",
+    "worstRating": "1"
+        },
+    "datePublished": "2019-${getRndInteger(1,13)}-${day(month)}",
+    "author": {"@type": "Person", "name": "${fullNames[0]}"}
+      },`
+      for (count = 1; count < fullNames.length; count++){
+        var month = getRndInteger(1, 13);
+        var text = text + `{
+            "@type": "Review",
+            "reviewBody": "I thought that because of the cheap prices, the delivery time or quality would be bad. That is definetly not the case!",
+            "reviewRating": {
+            "@type": "Rating",
+            "ratingValue": "5",
+            "bestRating": "5",
+            "worstRating": "1"
+                },
+            "datePublished": "2019-${month}-${day(month)}",
+            "author": {"@type": "Person", "name": "${fullNames[count]}"}
+              },`;
+    document.getElementById("goodShit").value = text;
+    }     
+
+}
+
 
 //https://www.w3schools.com/js/js_random.asp
 function getRndInteger(min, max) {
@@ -67,20 +70,21 @@ function getRndInteger(min, max) {
 }
 
 function genForReview(){
+    var month = getRndInteger(1, 13);
     var review = document.getElementById("review").value;
     var name = fullNames[getRndInteger(0, fullNames.length - 1)];
-    var text = "  \"review\": [{\n" +
-        "    \"@type\": \"Review\",\n" +
-        "    \"reviewBody\": \"" + review + ",\n" +
-        "    \"reviewRating\": {\n" +
-        "      \"@type\": \"Rating\",\n" +
-        "      \"ratingValue\": \"5\",\n" +
-        "      \"bestRating\": \"5\",\n" +
-        "      \"worstRating\": \"1\"\n" +
-        "    }," +
-        "    \"datePublished\": \"2019-" + getRndInteger(1, 13) + "-"+ getRndInteger(1, 32) + ",\n" +
-        "    \"author\": {\"@type\": \"Person\", \"name\": "+name+"}\n" +
-        "  },";
+    var text = `{
+        "@type": "Review",
+        "reviewBody": "${review}",
+        "reviewRating": {
+        "@type": "Rating",
+        "ratingValue": "5",
+        "bestRating": "5",
+        "worstRating": "1"
+            },
+        "datePublished": "2019-${getRndInteger(1,13)}-${day(month)}",
+        "author": {"@type": "Person", "name": "${name}"}
+          },`;
     var htmlText = "<div class=\"reviews-items\">\n" +
         "<div class=\"reviews-names\"><b>" + name + "</b></div>\n" +
         "<div class=\"reviews-rating\">5<i class=\"fa fa-star\" aria-hidden=\"true\"></i></div>\n" +
